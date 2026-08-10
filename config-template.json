@@ -1,0 +1,59 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  
+  "provider": {
+    "bharatcode": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "BharatCode",
+      "options": {
+        "baseURL": "https://bharatcode.ai/api/model/v1",
+        "apiKey": "{env:BHARATCODE_API_KEY}"
+      },
+      "models": {
+        "bharatcode:qwen36-35b-q6-256k-vision": {
+          "name": "BharatCode vision coder",
+          "limit": { "context": 200000, "output": 32000 }
+        },
+        "bharatcode:qwen36-35b-q8-256k": {
+          "name": "BharatCode coder high precision",
+          "limit": { "context": 200000, "output": 32000 }
+        },
+        "bharatcode:qwen36-35b-awq-200k": {
+          "name": "BharatCode coder 200K",
+          "limit": { "context": 200000, "output": 32000 }
+        }
+      }
+    }
+  },
+  
+  "plugin": [
+    "bharatcode",
+    "opencode-goal-plugin",
+    "@hueyexe/opencode-ensemble@0.15.1"
+  ],
+  
+  "permission": {
+    "external_directory": {
+      "~/.local/share/opencode/worktree/**": "allow"
+    }
+  },
+  
+  "command": {
+    "goal": {
+      "description": "Set a session-scoped goal and auto-continue until complete.",
+      "template": "$ARGUMENTS",
+      "agent": "ultrathink"
+    }
+  },
+  
+  "mcp": {
+    "notion": {
+      "type": "local",
+      "command": ["npx", "-y", "@notionhq/notion-mcp-server"],
+      "enabled": true,
+      "environment": {
+        "NOTION_TOKEN": "{env:NOTION_TOKEN}"
+      }
+    }
+  }
+}
