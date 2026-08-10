@@ -134,11 +134,12 @@ cd opencode-config
 
 ### Phase 4: Install Skills
 
-Skills are just markdown files that OpenCode reads. Copy each skill directory to `~/.agents/skills/`.
+Skills are markdown files that OpenCode reads from the **global skills directory** at `~/.agents/skills/`. Copy each skill directory there.
 
 **Steps:**
 1. Create `~/.agents/skills/` if it doesn't exist: `mkdir -p ~/.agents/skills/`
 2. Copy each skill from the repo's `skills/` folder to `~/.agents/skills/`
+   - Specifically: `skills/ultrathink/SKILL.md` → `~/.agents/skills/ultrathink/SKILL.md`
 3. **Do not delete existing skills** — only add yours
 4. Verify by listing `~/.agents/skills/`
 
@@ -155,11 +156,12 @@ ls ~/.agents/skills/
 
 ### Phase 5: Install Agents
 
-Agents are markdown files that OpenCode uses as specialized agents. Copy each agent file to `~/.config/opencode/agents/`.
+Agents are markdown files that OpenCode uses as specialized agents. They go into the **global OpenCode config directory** at `~/.config/opencode/agents/`.
 
 **Steps:**
 1. Create `~/.config/opencode/agents/` if it doesn't exist: `mkdir -p ~/.config/opencode/agents/`
-2. Copy each agent file from the repo's `agents/` folder
+2. Copy each agent file from the repo's `agents/` folder to `~/.config/opencode/agents/`
+   - Specifically: `agents/Ultrathink.md` → `~/.config/opencode/agents/Ultrathink.md`
 3. Verify by listing `~/.config/opencode/agents/`
 
 **Commands:**
