@@ -40,7 +40,8 @@ opencode-config/
 │   ├── find-skills/
 │   ├── opencode-ensemble/
 │   ├── pptx-manipulation/
-│   └── ui-ux-pro-max/
+│   ├── ui-ux-pro-max/
+│   └── ultrathink/
 └── agents/                ← All OpenCode agent files
     └── Ultrathink.md
 ```
