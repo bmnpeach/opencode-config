@@ -256,6 +256,43 @@ opencode --version
 
 ---
 
+### Phase 10: Optional — Wispr Flow + Notion MCP Setup
+
+After the base setup is complete, ask the friend:
+
+> "Do you want to set up Wispr Flow (an AI voice assistant) and Notion MCP integration? These are optional but useful. Wispr Flow lets you talk to OpenCode. Notion MCP lets OpenCode interact with your Notion workspace."
+
+**If they say YES:**
+
+1. **Load the Ultrathink skill** — This is the skill you copied from `skills/ultrathink/SKILL.md`. It's a strategic planning agent that decomposes complex tasks into phases before executing.
+
+2. **Tell Ultrathink to plan it:**
+   - Pass the Wispr Flow setup task to the Ultrathink agent
+   - Ask it to: assess the friend's OS, determine the correct download link, plan the installation steps, and handle the Notion MCP configuration
+   - Ultrathink should break this into phases, identify dependencies, and surface edge cases
+
+3. **What Ultrathink will handle:**
+   - **Wispr Flow:**
+     - Download from https://wisprflow.ai/downloads
+     - Determine the correct installer for the friend's OS (macOS/Windows/Linux, Intel/Apple Silicon)
+     - Run the installer
+     - Verify it's running
+   - **Notion MCP:**
+     - Guide the friend to create a Notion integration token at notion.com
+     - Add the Notion MCP configuration to their `opencode.json`
+     - Test the connection
+
+4. **After Ultrathink plans and executes:**
+   - Verify both Wispr Flow and Notion MCP are working
+   - Update the friend's `opencode.json` with the Notion token
+
+**If they say NO:**
+- Skip to the Final Message section
+
+**Decision point:** If the friend already has Wispr Flow installed, skip the Wispr Flow portion and only set up Notion MCP. If they already have Notion MCP configured, skip that portion.
+
+---
+
 ## Edge Cases & Decision Points
 
 | Situation | What to Do |
