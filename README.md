@@ -38,20 +38,10 @@ opencode-config/
 │   ├── brand-storytelling/
 │   ├── docx-manipulation/
 │   ├── find-skills/
-│   ├── ghostwriter-voice-analyze/
-│   ├── ghostwriter-voice-apply/
-│   ├── ghostwriter-voice-blend/
-│   ├── ghostwriter-voice-create/
 │   ├── opencode-ensemble/
 │   ├── pptx-manipulation/
-│   ├── ui-ux-pro-max/
-│   └── ultrathink-plan/
+│   └── ui-ux-pro-max/
 └── agents/                ← All OpenCode agent files
-    ├── Coach.md
-    ├── Insight_extraction agent.md
-    ├── Queen_bee.md
-    ├── Strategy_Consulting Agent.md
-    ├── Thinking agent copy.md
     └── Ultrathink.md
 ```
 
