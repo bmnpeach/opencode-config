@@ -194,26 +194,40 @@ python3 -c "import openpyxl; print('openpyxl OK')"
 
 ---
 
-### Phase 7: Configure OpenCode
+### Phase 7: Configure OpenCode (User-Driven)
 
-Read `config-template.json` and help the friend create their `opencode.json`.
+**Do NOT automatically apply `config-template.json`.** The template is a reference only — it shows the structure of an `opencode.json`, but the friend should only add what they actually want.
 
 **Steps:**
-1. Read `config-template.json` to understand the structure
-2. Check if the friend already has an `opencode.json`
-3. If they do, **merge** the new config rather than overwriting
-4. If they don't, create one using the template as a guide
-5. **Important:** The friend needs to fill in their own API keys and tokens. Tell them what goes where.
+1. Check if the friend already has an `opencode.json`:
+   ```bash
+   cat ~/.config/opencode/opencode.json 2>/dev/null || echo "No existing config"
+   ```
 
-**Key placeholders to explain:**
-- `BHARATCODE_API_KEY` — their API key for the BharatCode provider
-- `NOTION_TOKEN` — their Notion integration token (they get this from notion.com)
-- Any other personal tokens
+2. **If they already have a working config:**
+   - Ask them what additional features they want (providers, MCPs, plugins)
+   - Help them add only what they choose
+   - Merge carefully — don't break their existing config
 
-**Help the friend understand:**
-- Where to get each token
-- What each config section does
-- How to test their configuration after setup
+3. **If they don't have a config:**
+   - Ask them what they want to use:
+     - **Providers:** Do they want BharatCode, OpenAI, or something else? Don't assume BharatCode.
+     - **MCPs:** Do they want Notion, or something else entirely? Don't assume Notion.
+     - **Plugins:** Do they want the goal plugin, ensemble, or nothing?
+   - Guide them to build their own config from scratch
+   - Use `config-template.json` only as a structural reference (show them the format, not the content)
+
+4. **Important principles:**
+   - Never overwrite a friend's existing config
+   - Never assume they want BharatCode — that's your provider, not theirs
+   - Never assume they want Notion — they may not use it
+   - Every secret (API keys, tokens) must come from the friend, never from the template
+   - The template is a **reference**, not a **source of truth**
+
+**How to present the template:**
+> "Here's what an opencode.json looks like structurally. It's just an example — you decide what goes in yours."
+
+Then show them the file, but emphasize they should only copy the structure, not the values.
 
 ---
 
@@ -262,36 +276,47 @@ opencode --version
 
 After the base setup is complete, ask the friend:
 
-> "Do you want to set up Wispr Flow (an AI voice assistant) and Notion MCP integration? These are optional but useful. Wispr Flow lets you talk to OpenCode. Notion MCP lets OpenCode interact with your Notion workspace."
+> "Do you want to set up Wispr Flow (an AI voice assistant) and/or Notion MCP integration? These are optional. Wispr Flow lets you talk to OpenCode. Notion MCP lets OpenCode interact with your Notion workspace."
 
-**If they say YES:**
+**If they say YES to Wispr Flow:**
 
-1. **Load the Ultrathink skill** — This is the skill you copied from `skills/ultrathink/SKILL.md`. It's a strategic planning agent that decomposes complex tasks into phases before executing.
+1. **Load the Ultrathink skill** — This is the skill at `skills/ultrathink/SKILL.md`. It's a strategic planning agent that decomposes complex tasks into phases before executing.
 
-2. **Tell Ultrathink to plan it:**
-   - Pass the Wispr Flow setup task to the Ultrathink agent
-   - Ask it to: assess the friend's OS, determine the correct download link, plan the installation steps, and handle the Notion MCP configuration
+2. **Pass the Wispr Flow task to Ultrathink:**
+   - Ask it to assess the friend's OS, determine the correct download link, plan the installation steps, and verify it's running
    - Ultrathink should break this into phases, identify dependencies, and surface edge cases
 
-3. **What Ultrathink will handle:**
-   - **Wispr Flow:**
-     - Download from https://wisprflow.ai/downloads
-     - Determine the correct installer for the friend's OS (macOS/Windows/Linux, Intel/Apple Silicon)
-     - Run the installer
-     - Verify it's running
-   - **Notion MCP:**
-     - Guide the friend to create a Notion integration token at notion.com
-     - Add the Notion MCP configuration to their `opencode.json`
-     - Test the connection
+**If they say YES to Notion MCP:**
 
-4. **After Ultrathink plans and executes:**
-   - Verify both Wispr Flow and Notion MCP are working
-   - Update the friend's `opencode.json` with the Notion token
+1. **Guide them to get a Notion token:**
+   - They need to create a Notion integration at notion.com/my-integrations
+   - Copy the internal integration token
+   - Tell them to store it securely — it's like a password
 
-**If they say NO:**
+2. **Add Notion MCP to their existing `opencode.json`:**
+   - Read their current config first
+   - Add the MCP section carefully without breaking anything
+   - Use this structure as a guide:
+     ```json
+     "mcp": {
+       "notion": {
+         "type": "local",
+         "command": ["npx", "-y", "@notionhq/notion-mcp-server"],
+         "enabled": true,
+         "environment": {
+           "NOTION_TOKEN": "ntn_THEIR_TOKEN_HERE"
+         }
+       }
+     }
+     ```
+   - **Do NOT use the template's values** — the friend provides their own token
+
+3. **Test the connection**
+
+**If they say NO to both:**
 - Skip to the Final Message section
 
-**Decision point:** If the friend already has Wispr Flow installed, skip the Wispr Flow portion and only set up Notion MCP. If they already have Notion MCP configured, skip that portion.
+**Decision point:** If the friend already has Wispr Flow installed, skip the Wispr Flow portion. If they already have Notion MCP configured, skip that portion.
 
 ---
 
