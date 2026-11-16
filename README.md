@@ -2,7 +2,7 @@
 
 ## What This Is
 
-This repo contains everything needed to set up your friend's laptop with OpenCode skills, agents, and configuration. Your friend should paste this entire README into their fresh OpenCode session and let the agent do the work.
+This repo contains everything needed to set up your friend's laptop with OpenCode skills, agents, and configuration. Your friend should paste this entire README into their fresh agent session (OpenCode, Claude Code or Codex) and let the agent do the work.
 
 ---
 
@@ -48,7 +48,46 @@ opencode-config/
 
 ---
 
+## BharatCode Models (single source of truth)
+
+Every harness below uses these two models. If BharatCode changes its lineup, edit this table, `config-template.json` and the `model:` line in `agents/Ultrathink.md` (and `skills/ultrathink/SKILL.md`).
+
+| Model ID | Name | Context | Max output |
+|----------|------|---------|-----------|
+| `glm-5.3-flash` | GLM 5.3 Flash (default) | 262,144 | 32,000 |
+| `deepseek-v4.1-flash` | DeepSeek v4.1 Flash | 1,000,000 | 32,000 |
+
+Endpoint: `https://bharatcode.ai/api/model/v1` (OpenAI-compatible). Key: `BHARATCODE_API_KEY`, supplied by the friend.
+
+---
+
 ## Setup Phases
+
+### Phase 0: Choose Your Harness (ASK THIS FIRST)
+
+Before checking or installing anything, ask the friend exactly this, in plain words:
+
+> "Hey, I'd recommend you set up **OpenChamber**: it's the easiest, and it gives you a friendly app on top of OpenCode. Otherwise you've got these options:
+> 1. **Raw OpenCode**: works, but fewer customizable features.
+> 2. **Connect BharatCode to your Claude Code harness.**
+> 3. **Connect BharatCode to your Codex harness.**
+>
+> Which would you like? Just say 'OpenChamber' (or press enter) for the recommended one."
+
+**Default:** if they are unsure or just say "yes"/"whatever", choose OpenChamber. Never ask more than this one question before starting.
+
+| Choice | What you do |
+|--------|-------------|
+| **OpenChamber (recommended)** | Phases 1-9 below. In Phase 2, after OpenCode, install OpenChamber: the desktop app from https://github.com/openchamber/openchamber/releases/latest (bundles OpenCode, easiest for beginners), or `npm install -g @openchamber/web` then run `openchamber` (needs Node.js 24.14+). Check the project's README for current steps. |
+| **Raw OpenCode** | Phases 1-9 below, skipping OpenChamber. Mention once that they give up OpenChamber's UI and customization. |
+| **Claude Code** | Skip OpenCode and OpenChamber. Copy `skills/*` to `~/.claude/skills/`. Agents are OpenCode-format, so adapt them (or skip) rather than copying blindly. Wire BharatCode via Claude Code's own provider settings using the endpoint and models above. Verify against current Claude Code docs first. Then Phases 6, 9, 10. |
+| **Codex** | Skip OpenCode and OpenChamber. Add BharatCode as a custom OpenAI-compatible provider in Codex's config (`~/.codex/config.toml`) using the endpoint and models above. Place skills where Codex reads them. Verify against current Codex docs first. Then Phases 6, 9, 10. |
+
+After OpenChamber or Raw OpenCode finishes, offer once: "Want me to also connect this to your Claude Code or Codex harness?" If yes, run that row of the table too.
+
+Remember their answer: it decides where files go for the rest of the setup.
+
+---
 
 ### Phase 1: Assess the Current State
 
@@ -211,7 +250,7 @@ python3 -c "import openpyxl; print('openpyxl OK')"
 
 3. **If they don't have a config:**
    - Ask them what they want to use:
-     - **Providers:** Do they want BharatCode, OpenAI, or something else? Don't assume BharatCode.
+     - **Providers:** Do they want BharatCode (GLM 5.3 + DeepSeek, see the models table), OpenAI, or something else? Don't assume BharatCode.
      - **MCPs:** Do they want Notion, or something else entirely? Don't assume Notion.
      - **Plugins:** Do they want the goal plugin, ensemble, or nothing?
    - Guide them to build their own config from scratch
@@ -339,7 +378,7 @@ After the base setup is complete, ask the friend:
 
 After setup is complete, tell the friend:
 
-1. **Welcome to OpenCode!** Your setup is complete.
+1. **Welcome!** Your setup is complete on the harness they chose (OpenChamber, OpenCode, Claude Code or Codex).
 2. **Test it out:** Try asking OpenCode to "create a Word document" or "create a PowerPoint"
 3. **API keys:** Remind them to fill in their API keys in `opencode.json`
 4. **Notion:** If they want Notion integration, they need to create a token at notion.com
